@@ -1,14 +1,13 @@
-package com.mta.bookshop;
+package com.mta.bookshopadmin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-public class BookShopApplication {
+public class BookShopAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BookShopApplication.class, args);
+        SpringApplication.run(BookShopAdminApplication.class, args);
     }
 
 }
