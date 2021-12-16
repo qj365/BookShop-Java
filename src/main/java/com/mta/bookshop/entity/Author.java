@@ -7,11 +7,12 @@ import java.util.Collection;
 public class Author {
     private int id;
     private String name;
-    private String diachi;
+
     private Collection<Book> booksById;
 
     @Id
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -30,15 +31,6 @@ public class Author {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "Diachi")
-    public String getDiachi() {
-        return diachi;
-    }
-
-    public void setDiachi(String diachi) {
-        this.diachi = diachi;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -49,7 +41,7 @@ public class Author {
 
         if (id != author.id) return false;
         if (name != null ? !name.equals(author.name) : author.name != null) return false;
-        if (diachi != null ? !diachi.equals(author.diachi) : author.diachi != null) return false;
+
 
         return true;
     }
@@ -58,7 +50,7 @@ public class Author {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (diachi != null ? diachi.hashCode() : 0);
+
         return result;
     }
 
