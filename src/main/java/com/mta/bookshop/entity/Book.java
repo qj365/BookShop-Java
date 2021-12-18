@@ -15,6 +15,7 @@ public class Book {
     private int idPublisher;
     private int idCategory;
     private int idAuthor;
+
     private Publisher publisherByIdPublisher;
     private Category categoryByIdCategory;
     private Author authorByIdAuthor;

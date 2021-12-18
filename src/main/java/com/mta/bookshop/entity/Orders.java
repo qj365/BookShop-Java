@@ -12,14 +12,12 @@ public class Orders {
     private Date receiveDate;
     private String note;
     private String paymentMethod;
-    private Integer idVoucher;
     private Integer idState;
     private Integer idCustomer;
     private Integer idInformation;
     private Integer totalPrice;
     private String reason;
     private Collection<DetailOrder> detailOrdersById;
-    private Voucher voucherByIdVoucher;
     private State stateByIdState;
     private Customer customerByIdCustomer;
     private Information informationByIdInformation;
@@ -85,15 +83,6 @@ public class Orders {
         this.paymentMethod = paymentMethod;
     }
 
-    @Basic
-    @Column(name = "IdVoucher")
-    public Integer getIdVoucher() {
-        return idVoucher;
-    }
-
-    public void setIdVoucher(Integer idVoucher) {
-        this.idVoucher = idVoucher;
-    }
 
     @Basic
     @Column(name = "IdState")
@@ -159,7 +148,6 @@ public class Orders {
         if (note != null ? !note.equals(orders.note) : orders.note != null) return false;
         if (paymentMethod != null ? !paymentMethod.equals(orders.paymentMethod) : orders.paymentMethod != null)
             return false;
-        if (idVoucher != null ? !idVoucher.equals(orders.idVoucher) : orders.idVoucher != null) return false;
         if (idState != null ? !idState.equals(orders.idState) : orders.idState != null) return false;
         if (idCustomer != null ? !idCustomer.equals(orders.idCustomer) : orders.idCustomer != null) return false;
         if (idInformation != null ? !idInformation.equals(orders.idInformation) : orders.idInformation != null)
@@ -178,7 +166,6 @@ public class Orders {
         result = 31 * result + (receiveDate != null ? receiveDate.hashCode() : 0);
         result = 31 * result + (note != null ? note.hashCode() : 0);
         result = 31 * result + (paymentMethod != null ? paymentMethod.hashCode() : 0);
-        result = 31 * result + (idVoucher != null ? idVoucher.hashCode() : 0);
         result = 31 * result + (idState != null ? idState.hashCode() : 0);
         result = 31 * result + (idCustomer != null ? idCustomer.hashCode() : 0);
         result = 31 * result + (idInformation != null ? idInformation.hashCode() : 0);
@@ -196,15 +183,7 @@ public class Orders {
         this.detailOrdersById = detailOrdersById;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "IdVoucher", referencedColumnName = "Id", insertable=false, updatable=false)
-    public Voucher getVoucherByIdVoucher() {
-        return voucherByIdVoucher;
-    }
 
-    public void setVoucherByIdVoucher(Voucher voucherByIdVoucher) {
-        this.voucherByIdVoucher = voucherByIdVoucher;
-    }
 
     @ManyToOne
     @JoinColumn(name = "IdState", referencedColumnName = "Id", insertable=false, updatable=false)

@@ -12,8 +12,8 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
     public List<Book> findBookByIdCategory(Integer id);
     public List<Book> findBookByPriceGreaterThanEqual (Integer amount);
     public List<Book> findBookByPriceLessThanEqual (Integer amount);
-//    @Query("SELECT e FROM Book e WHERE e.name like %?1%")
     public List<Book> findBookByNameContains (String name);
+
 
 
 }
