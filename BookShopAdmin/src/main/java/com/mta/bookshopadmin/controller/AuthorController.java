@@ -1,7 +1,11 @@
 package com.mta.bookshopadmin.controller;
 
 import com.mta.bookshop.entity.Author;
+import com.mta.bookshop.entity.Category;
+import com.mta.bookshop.entity.Publisher;
 import com.mta.bookshopadmin.service.AuthorService;
+import com.mta.bookshopadmin.service.CategoryService;
+import com.mta.bookshopadmin.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +21,7 @@ import java.util.List;
 public class AuthorController {
     @Autowired
     private AuthorService authorService;
+
 
     @GetMapping({"/index", "/Index", ""})
     public String Index(Model model){
@@ -37,7 +42,6 @@ public class AuthorController {
         Author author = authorService.findById(id);
         model.addAttribute("author",author);
         return "author/author-form";
-
     }
 
     @PostMapping("/Save")

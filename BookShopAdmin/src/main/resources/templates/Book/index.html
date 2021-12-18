@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Shared/_Layout" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quản lý bán sách</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Sách</h1>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+
+
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- Tìm kiếm -->
+            <div class="card card-default collapsed-card" id="card-id">
+
+                <div class="card-header">
+                    <h3 class="card-title">Tìm kiếm</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-plus" id="button-collapse"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="" th:action="@{/Book}" method="get">
+                        <div class="row">
+
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Tác giả</label>
+                                    <select name="sa" id="sa" class="form-control">
+                                        <option value=""></option>
+                                        <th:block th:each="author : ${authorList}">
+                                            <option th:value="${author.Id}" th:text="${author.name}" th:selected="${author.Id == sa}"></option>
+                                        </th:block>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label>Chọn nhà xuất bản</label>
+                                    <select name="sp" id="sp" class="form-control">
+                                        <option value=""></option>
+                                        <th:block th:each="publisher : ${publisherList}">
+                                            <option th:value="${publisher.Id}" th:text="${publisher.name}" th:selected="${publisher.Id == sp}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>Chọn thể loại</label>
+                                    <select name="sc" id="sc" class="form-control">
+                                        <option value=""></option>
+                                        <th:block th:each="category : ${categoryList}">
+                                            <option th:value="${category.Id}" th:text="${category.name}" th:selected="${category.Id == sc}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label>Chọn khoảng giá</label>
+                                    <input th:value="${mip}" type="number" name="mip" id="mip" value="" class="form-control" />
+                                    <span style=" width: 7px; height: 2px; font-size: 0px; display: inline-block; background: rgb(154, 154, 154); margin: 0px 4px; vertical-align: middle; position: absolute; right: -8px; top: 60%;">
+                                        -
+                                    </span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label style="visibility:hidden">Chọn khoảng giá</label>
+                                    <input th:value="${map}" type="number" name="map" id="map" value="" class="form-control" />
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row" style="padding: 0px 7.5px;">
+                            <div class="input-group input-group-lg">
+                                <input th:value="${sb}" type="search" class="form-control form-control-lg" placeholder="Nhập tên sách muốn tìm" name="sb" id="sb">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-lg btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a th:href="@{/Book/Create}" class="btn btn-primary">
+                                        Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Tên sách
+                                    </th>
+                                    <th>
+                                        Ảnh bìa
+                                    </th>
+                                    <th>
+                                        Giá
+                                    </th>
+                                    <th>
+                                        Số lượng
+                                    </th>
+
+                                    <th>
+                                        Tác giả
+                                    </th>
+                                    <th>
+                                        Thể loại
+                                    </th>
+                                    <th>
+                                        Nhà xuất bản
+                                    </th>
+
+                                    <th>Chức năng</th>
+                                </tr>
+                                </thead>
+
+<!--                                var styletd = item.Discount > 0 ? "text-decoration: line-through;" : "";-->
+
+
+                                <tr th:each ="book : ${bookList}">
+                                    <td th:text="${book.Name}"></td>
+                                    <td>
+                                        <img width="100px" th:src="@{'/BookImage/' + ${book.getPhoto()}}" />
+                                    </td>
+
+                                    <th:block th:switch="${book.Discount}">
+                                        <td th:case=0 th:text="${book.Price}"></td>
+                                        <td th:case="*">
+                                            <span th:text="${book.Price}" style="text-decoration: line-through; margin-right: 10px"></span>
+                                            <span th:text="${book.Price * (100 - book.Discount) / 100}"></span>
+                                        </td>
+                                    </th:block>
+
+                                    <td th:text="${book.Amount}"></td>
+
+                                    <td th:text="${book.authorByIdAuthor.Name}"> </td>
+
+                                    <td th:text="${book.categoryByIdCategory.Name}"></td>
+
+                                    <td th:text="${book.publisherByIdPublisher.Name}"></td>
+
+                                    <td>
+                                        <a class="btn-edit" th:href="@{'./Book/Edit/' + ${book.id}}">
+                                            <i class="far fa-edit icon-edit"></i>
+                                        </a>
+
+                                        <a class="js-delete" th:href="@{'./Book/Delete/' + ${book.id}}">
+                                            <i class="far fa-trash-alt icon-delete"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
+
+
+<script>
+    $(function () {
+        $('#sc').select2();
+        $('#sp').select2();
+        $('#sa').select2();
+
+
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false, searching: false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        $("#example1").on("click", ".js-delete", function (event) {
+            var button = $(this);
+
+            event.preventDefault();
+
+            bootbox.confirm("Bạn chắc chắn muốn xoá mục này?", function (r) {
+                if (r) {
+                    window.location = button.attr('href');
+                }
+            })
+        });
+
+        if (document.location.search.length) {
+            $('#card-id').removeClass('collapsed-card');
+            $('#button-collapse').removeClass('fa-plus');
+            $('#button-collapse').addClass('fa-minus');
+
+            var urlParams = new URLSearchParams(document.location.search);
+
+            // $('#sb').val(urlParams.get('sb'));
+            // $('#mip').val(urlParams.get('mip'));
+            // $('#map').val(urlParams.get('map'));
+
+        }
+    });
+</script>

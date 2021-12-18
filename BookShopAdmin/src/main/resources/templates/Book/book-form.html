@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Shared/_Layout" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quản lý bán sách</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Thông tin sách</h1>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <form action="" th:action="@{/Book/Save}" method="post" enctype = "multipart/form-data" th:object="${book}" style = "display: flex; width: 100%;">
+                                        <input type="hidden" th:field="*{id}">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Tên sách</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" th:field="*{Name}" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Mô tả</label>
+                                                <div class="col-md-12">
+                                                    <input type="text" th:field="*{Description}" class="form-control" id="summernote">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Giảm giá</label>
+                                                    <div class="col-md-12">
+                                                        <input type="number" th:field="*{Discount}" class="form-control" required min="0">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Giá</label>
+                                                    <div class="col-md-12">
+                                                        <input type="number" th:field="*{Price}" class="form-control" required min="0">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Số lượng</label>
+                                                    <div class="col-md-12">
+                                                        <input type="number" th:field="*{Amount}" class="form-control" required min="0">
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Thể loại</label>
+
+                                                    <div class="col-md-12">
+                                                        <select class="form-control" th:field="*{IdCategory}" required/>
+                                                            <option value=""></option>
+                                                            <th:block th:each="category : ${categoryList}">
+                                                                <option th:value="${category.Id}" th:text="${category.Name}" th:selected="${category.Id == book.IdCategory}"></option>
+                                                            </th:block>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Nhà xuất bản</label>
+                                                    <div class="col-md-12">
+
+                                                        <select class="form-control" th:field="*{IdPublisher}" required/>
+                                                            <option value=""></option>
+                                                            <th:block th:each="publisher : ${publisherList}">
+                                                                <option th:value="${publisher.Id}" th:text="${publisher.Name}" th:selected="${publisher.Id == book.IdPublisher}"></option>
+                                                            </th:block>
+                                                        </select>
+
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Tác giả</label>
+                                                    <div class="col-md-12">
+                                                        <select class="form-control" th:field="*{IdAuthor}" required/>
+                                                            <option value=""></option>
+                                                            <th:block th:each="author : ${authorList}">
+                                                                <option th:value="${author.Id}" th:text="${author.Name}" th:selected="${author.Id == book.IdAuthor}"></option>
+                                                            </th:block>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Ảnh bìa</label>
+                                                    <div class="col-md-12 custom-file" style="width:96%; margin-left:6px">
+                                                        <input type="file" name="exampleInputFile" class="form-control custom-file-input"
+                                                               id = "exampleInputFile" accept = "image/*">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <th:block th:switch="${book.Id}">
+                                                        <img th:case=0 th:src="@{/BookImage/150x200.png}" alt="placeholder" class="col-md-5" id="blah" style="width:150px; height:200px">
+                                                        <img th:case="*" th:src="@{'/BookImage/' + ${book.Photo}}" alt="placeholder" class="col-md-5" id="blah" style="width:150px; height:200px">
+                                                    </th:block>
+
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                                        <a th:href="@{/Book}" class="btn btn-warning">Huỷ</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('select').select2();
+
+        $('#summernote').summernote();
+    });
+
+    bsCustomFileInput.init();
+
+    exampleInputFile.onchange = evt => {
+        const [file] = exampleInputFile.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
+</script>
