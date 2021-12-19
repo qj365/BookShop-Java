@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Orders, Integer> {
     public List<Orders> findByIdState(int id);
+    public List<Orders> findAllByOrderByIdStateAsc();
+
+
     @Query(value = "select sum(b.Amount) from DetailOrder b, Orders a WHERE IdOrder = a.Id AND a.IdState != 3 and IdBook = ?1", nativeQuery = true)
     public int soldBookAmount (int idBook);
 
@@ -18,4 +21,5 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
             "group by IdBook, Book.Name \n" +
             "order by Amount DESC;", nativeQuery = true)
     public List<SoldBookInterface> topSoldBook();
+
 }

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Shared/_Layout" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quản lý bán sách</title>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Thông tin chi tiết</h1>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+
+
+                        <!-- Main content -->
+                        <div class="invoice p-3 mb-3">
+                            <!-- title row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>
+                                        <i class="fas fa-globe"></i> BookStore, Inc.
+                                        <small class="float-right" th:text="'Ngày đặt ' + ${#dates.format(order.OrderDate, 'dd-MM-yyyy')}"></small><br />
+
+
+                                        <small class="float-right" th:text="${order.IdState == 5} ? ${order.ReceiveDate} : 'Chưa nhận'"></small>
+                                    </h4>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- info row -->
+                            <div class="row invoice-info">
+                                <div class="col-sm-4 invoice-col">
+                                    <b th:text="'Mã đơn hàng ' + ${order.Id}"></b><br>
+                                    <br>
+                                    <b>Tên người dùng:</b> <th:block th:text="${order.customerByIdCustomer.Name}"></th:block><br>
+                                    <b>SĐT tài khoản:</b> <th:block th:text="${order.customerByIdCustomer.Sdt}"></th:block><br>
+                                    <b>Email:</b> <th:block th:text="${order.customerByIdCustomer.Email}"></th:block>
+                                </div>
+                                <div class="col-sm-4 invoice-col">
+
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 invoice-col">
+                                    Người nhận
+                                    <address>
+                                        <strong th:text="${order.informationByIdInformation.Name}">@Model.Information.Name</strong><br>
+                                        <th:block th:text="'Địa chỉ: ' + ${order.informationByIdInformation.Address}"></th:block><br>
+                                        <th:block th:text="'Số điện thoại: ' + ${order.informationByIdInformation.Sdt}"></th:block><br>
+                                        <th:block th:text="'Thanh toán: ' + ${order.PaymentMethod}"></th:block>
+
+                                    </address>
+                                </div>
+                                <!-- /.col -->
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                            <!-- Table row -->
+                            <div class="row">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Mã sách</th>
+                                            <th>Tên sách</th>
+                                            <th>Nhà xuất bản</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        <tr th:each ="detailOrder : ${order.detailOrdersById}">
+                                            <td th:text="${detailOrder.IdBook}"></td>
+                                            <td th:text="${detailOrder.bookByIdBook.Name}"></td>
+                                            <td th:text="${detailOrder.bookByIdBook.publisherByIdPublisher.Name}"></td>
+                                            <td th:text="${detailOrder.Amount}"></td>
+                                            <td th:text="${detailOrder.TotalPrice}"></td>
+                                        </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                            <div class="row">
+                                <!-- accepted payments column -->
+                                <div class="col-6">
+                                    <p class="lead">Lưu ý:</p>
+
+
+                                    <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;" th:text="${order.Note}">
+                                        th:text="${order.IdState == 5} ? ${order.ReceiveDate} : 'Chưa nhận'"
+                                    </p>
+                                    <p class="text-muted well well-sm shadow-none" th:style="${order.IdState == 5} ? '' : 'display:none;'" style="margin-top: 10px; color:red !important;" th:text="'Lý do huỷ: ' + ${order.Reason}">
+                                    </p>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-6">
+                                    <p class="lead">Thanh toán</p>
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th>Tổng tiền:</th>
+                                                <td th:text="${order.TotalPrice}"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                            <!-- this row will not appear when printing -->
+
+                        </div>
+                        <!-- /.invoice -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+
+    </div>
+
+</body>
+</html>

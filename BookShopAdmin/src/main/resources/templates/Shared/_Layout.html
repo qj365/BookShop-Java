@@ -202,38 +202,46 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
-                        <a href="./Dashboard" class="nav-link">
+                        <a th:href="@{/Dashboard}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Tổng quan
                         </p>
                         </a>
                     </li>
-                    <li class="nav-item @classTree">
-                        <a href="#" class="nav-link @classActive">
+                    <li class="nav-item">
+                        <a th:href="@{/Order}" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
                                 Đơn hàng
-                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="./Delivery" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Đang vận chuyển</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./Order" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Tất cả</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
+<!--                    <li class="nav-item @classTree">-->
+<!--                        <a href="#" class="nav-link @classActive">-->
+<!--                            <i class="nav-icon fas fa-chart-pie"></i>-->
+<!--                            <p>-->
+<!--                                Đơn hàng-->
+<!--                                <i class="right fas fa-angle-left"></i>-->
+<!--                            </p>-->
+<!--                        </a>-->
+<!--                        <ul class="nav nav-treeview">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a href="./Delivery" class="nav-link">-->
+<!--                                <i class="far fa-circle nav-icon"></i>-->
+<!--                                <p>Đang vận chuyển</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a href="./Order" class="nav-link">-->
+<!--                                <i class="far fa-circle nav-icon"></i>-->
+<!--                                <p>Tất cả</p>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
                     <li class="nav-item">
-                        <a href="./Book" class="nav-link">
+                        <a th:href="@{/Book}" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Sách
@@ -241,7 +249,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./Author" class="nav-link">
+                        <a th:href="@{/Author}" class="nav-link">
                         <i class="nav-icon fas fa-pen"></i>
                         <p>
                             Tác giả
@@ -249,7 +257,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./Category" class="nav-link">
+                        <a th:href="@{/Category}" class="nav-link">
                         <i class="nav-icon far fa-list-alt"></i>
                         <p>
                             Thể loại
@@ -257,39 +265,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./Publisher" class="nav-link">
+                        <a th:href="@{/Publisher}" class="nav-link">
                         <i class="nav-icon fas fa-parachute-box"></i>
                         <p>
                             Nhà xuất bản
                         </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="./Voucher" class="nav-link">
-                        <i class="nav-icon fas fa-percent"></i>
-                        <p>
-                            Voucher
-                        </p>
-                        </a>
-                    </li>
 
 
                     <li class="nav-item">
-                        <a href="./Customer" class="nav-link">
+                        <a th:href="@{/Customer}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Khách hàng
                         </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="./Banner" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
-                        <p>
-                            Banner
-                        </p>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="/Admin/Manage/ChangePassword" class="nav-link">
                         <i class="nav-icon fas fa-unlock"></i>

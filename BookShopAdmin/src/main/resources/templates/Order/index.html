@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="Shared/_Layout" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quản lý bán sách</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Đơn hàng</h1>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Mã đơn hàng
+                                        </th>
+                                        <th>
+                                            Số điện thoại
+                                        </th>
+                                        <th>
+                                            Tên khách hàng
+                                        </th>
+                                        <th>
+                                            Ngày đặt
+                                        </th>
+                                        <th>
+                                            Tổng tiền
+                                        </th>
+                                        <th>
+                                            Trạng thái
+                                        </th>
+                                        <th>
+                                            Hình thức thanh toán
+                                        </th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                    </thead>
+
+
+                                    <tr th:each ="order : ${ordersList}">
+                                        <td th:text="${order.Id}"></td>
+                                        <td th:text="${order.customerByIdCustomer.Sdt}"></td>
+                                        <td th:text="${order.customerByIdCustomer.Name}"></td>
+                                        <td th:text="${#dates.format(order.OrderDate, 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${order.TotalPrice}"></td>
+                                        <th:block th:switch="${order.IdState}">
+
+                                            <td th:case=1 style="color: #E56795; font-weight:600; display: block">
+                                                <span th:text="${order.stateByIdState.Name}"></span>
+                                                <a class="btn btn-sm" style="background-color: #E56795" th:href="@{'./Order/Confirm/' + ${order.id}}">
+                                                    <i class="fas fa-thumbs-up" style="color: white"></i>
+                                                </a>
+                                            </td>
+
+                                            <td th:case=2 style="color: #3c8dbc; font-weight:600;">
+                                                <span th:text="${order.stateByIdState.Name}"></span>
+                                                <a class="btn btn-sm" style="background-color: #3c8dbc" th:href="@{'./Order/Delivery/' + ${order.id}}">
+                                                    <i class="fas fa-truck" style="color: white"></i>
+
+                                                </a>
+                                            </td>
+
+                                            <td th:case=3 style="color: #dc3545; font-weight:600;">Đã huỷ
+                                                <a class="btn btn-sm" style="background-color: #dc3545; display:none">
+                                                    <i class="fas fa-truck" style="color: white"></i>
+                                                </a>
+                                            </td>
+
+                                            <td th:case=4 style="color: #FF6F61; font-weight:600;">
+                                                <span th:text="${order.stateByIdState.Name}"></span>
+                                                <a class="btn btn-sm" style="background-color: #FF6F61" th:href="@{'./Order/Complete/' + ${order.id}}">
+                                                    <i class="fas fa-check-circle" style="color: white"></i>
+
+                                                </a>
+                                            </td>
+                                            <td th:case=5 style="color: #28a745; font-weight:600;">
+                                                <span th:text="${order.stateByIdState.Name}"></span>
+                                                <a class="btn btn-sm" style="background-color: #28a745; display: none;">
+                                                    <i class="fa-check-circle" style="color: white"></i>
+                                                </a>
+                                            </td>
+                                        </th:block>
+                                        <td th:text="${order.PaymentMethod}">
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" th:href="@{'./Order/Info/' + ${order.id}}">
+                                                <i class="fas fa-info-circle">
+                                                </i>
+                                                Info
+                                            </a>
+                                            <th:block th:switch="${order.IdState}">
+                                                <a th:case=1 class="btn btn-danger btn-sm" id="huy-btn" th:href="@{'./Order/Huy/' + ${order.Id}}">
+                                                    <i class="fas fa-ban"></i>
+                                                    Huỷ
+                                                </a>
+                                                <a th:case=2 class="btn btn-danger btn-sm" id="huy-btn" th:href="@{'./Order/Huy/' + ${order.Id}}">
+                                                    <i class="fas fa-ban"></i>
+                                                    Huỷ
+                                                </a>
+                                                <a th:case=4 class="btn btn-danger btn-sm" id="huy-btn" th:href="@{'./Order/Huy/' + ${order.Id}}">
+                                                    <i class="fas fa-ban"></i>
+                                                    Huỷ
+                                                </a>
+                                            </th:block>
+
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+        $("#example1").DataTable()
+
+        $("#example1").on("click", "#huy-btn", function (event) {
+            event.preventDefault();
+
+            var button = $(this).attr('href');
+
+            var form = "<form id='infos' action='" + button + "' method='post'>" +
+                "<p>Vui lòng nhập lí do huỷ:</p>" +
+                '<input type="radio" id="receive" name="reason" value="Khách không nhận hàng" checked>' +
+                '<label class ="label-form" for="receive">Khách không nhận hàng</label><br>' +
+                '<input type="radio" id="confirm" name="reason" value="Không xác nhận được đơn hàng" >' +
+                '<label class ="label-form" for="confirm">Không xác nhận được đơn hàng</label><br>' +
+                '<input type="radio" id="return" name="reason" value="Trả hàng" >' +
+                '<label class ="label-form" for="return">Trả hàng</label><br>' +
+                '<input type="radio" id="other" name="reason" value="">' +
+                '<label class ="label-form" for="other">Khác</label>' +
+                '<input class="form-control" id="textOther" type="text" name="other" disabled/>' +
+                '</form >'
+
+
+            bootbox.confirm({
+                message: form,
+                buttons: {
+                    confirm: {
+                        label: 'OK',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (r) {
+                    if (r) {
+                        if (!$('#infos').valid())
+                            return false;
+                        else {
+                            $('#infos').submit();
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+        $(document).on("shown.bs.modal", function () {
+            $('#textOther').prop('disabled', true);
+
+            $('#infos').validate({
+
+                messages: {
+                    reason: "Vui lòng chọn một lí do"
+                }
+            });
+
+            $('input[name="reason"]').change(function () {
+                if ($(this).val() != '') {
+                    $('#textOther').prop('disabled', true);
+                    $('#textOther').val('');
+                    $("#textOther").prop('required', false);
+                }
+                else {
+                    $('#textOther').prop('disabled', false);
+                    $('#textOther').rules('add', {
+                        required: true,
+                        messages: {
+                            required: "Vui lòng nhập lí do"
+
+                        }
+                    });
+                }
+
+
+            });
+        });
+
+    })
+
+</script>
