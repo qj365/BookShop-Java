@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+
+    <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap 4 -->
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/dist/js/adminlte.min.js}"></script>
+
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
+        <a href="#"><b>Admin</b>LTE</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Register a new membership</p>
+            <form th:action="@{/Register/Processer}" th:object="${user}" method="post" onsubmit="return checkUsernameUnique(this);">
+                <div class="input-group mb-3">
+                    <input class="form-control" th:field="*{Username}" placeholder = "Username" required></input>
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <input class="form-control" type="password" th:field="*{Password}" placeholder = "Password" required></input>
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input class="form-control" type="password" name="confirm_password" id="confirm_password" placeholder = "Retype password" required></input>
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                    <div class="col">
+                        <p class="text-danger" id="message"></p>
+                    </div>
+
+                <div class="row">
+                    <div class="col-8">
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+            <hr>
+
+            <a th:href="@{./Login}" class="text-center">I already have a membership</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+
+<script type="text/javascript">
+
+
+    function checkUsernameUnique(form){
+        if (document.getElementById('Password').value ==  document.getElementById('confirm_password').value) {
+
+        } else {
+            document.getElementById('message').innerHTML = 'Mật khẩu nhập vào không trùng';
+            return false;
+
+        }
+
+        url = "[[@{/Register/CheckUsername}]]";
+        name = $("#Username").val();
+        csrfValue = $("input[name='_csrf']").val();
+        params = {username: name, _csrf: csrfValue};
+
+
+        $.post(url, params, function (response){
+            if(response == "Ok"){
+                form.submit();
+            }
+            else if (response == "Duplicate"){
+                $('#message').text('Tên tài khoản đã được sử dụng')
+            }
+        })
+        return false;
+    }
+
+
+</script>
+</body>
+</html>
+
+
+
+
+

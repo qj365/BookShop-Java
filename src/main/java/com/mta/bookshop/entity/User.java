@@ -1,11 +1,9 @@
 package com.mta.bookshop.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "`User`")
 public class User {
     private int id;
     private String username;
@@ -14,6 +12,7 @@ public class User {
     @Id
     @Basic
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -23,7 +22,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "username")
+    @Column(name = "Username")
     public String getUsername() {
         return username;
     }
@@ -33,7 +32,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "Password")
     public String getPassword() {
         return password;
     }
